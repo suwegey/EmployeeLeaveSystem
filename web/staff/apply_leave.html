@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Approve / Reject Leave</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* ===== Use your provided CSS ===== */
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f2f2f2;
+}
+
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 260px;
+  background: #e0e0e0;
+  padding: 15px;
+  transition: width 0.3s ease;
+}
+
+.sidebar.closed {
+  width: 60px;
+}
+
+.brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.sidebar.closed .brand span:first-child {
+  display: none;
+}
+
+.profile {
+  text-align: center;
+  margin-bottom: 25px;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.closed .profile {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.profile img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #ccc;
+  margin-bottom: 10px;
+}
+
+.profile h4 {
+  margin: 5px 0 0;
+  font-size: 14px;
+}
+
+.profile p {
+  margin: 0;
+  font-size: 12px;
+  color: #555;
+}
+
+.menu a {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 6px;
+  text-decoration: none;
+  color: #000;
+  border-radius: 6px;
+  font-size: 14px;
+  gap: 12px;
+}
+
+.menu a i {
+  width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.menu a:hover {
+  background: #cfcfcf;
+}
+
+.menu a.active {
+  background: #bdbdbd;
+  font-weight: bold;
+}
+
+.sidebar.closed .menu a {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 0;
+  gap: 0;
+}
+
+.sidebar.closed .menu a i {
+  font-size: 18px;
+  width: auto;
+}
+
+/* ===== Main Content ===== */
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(to right, #bdbdbd, #eeeeee);
+  padding: 18px;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+
+/* Card */
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 850px;
+  margin: auto;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* Form */
+.form-row {
+  display: grid;
+  grid-template-columns: 180px 400px;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.form-row.full {
+  grid-template-columns: 180px 1fr;
+}
+
+label {
+  font-weight: 600;
+}
+
+input, select, textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+textarea {
+  height: 80px;
+  resize: none;
+}
+
+/* Upload */
+.upload-btn {
+  background: #bdbdbd;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background: red;
+}
+
+.btn-submit {
+  background: #00c853;
+}
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="sidebar" id="sidebar">
+    <div class="brand">
+      <span>TERLAJAK LARIS</span>
+      <span class="toggle-btn" onclick="toggleSidebar()">☰</span>
+    </div>
+
+    <div class="profile">
+      <img src="https://i.imgur.com/7k12EPD.png">
+      <h4>AMIRUL AIMAN BIN LEO</h4>
+      <p>HOD IT</p>
+    </div>
+
+    <div class="menu">
+      <a><i class="fas fa-th-large"></i>Dashboard</a>
+      <a><i class="fas fa-user"></i>Profile</a>
+      <a  class="active"><i class="fas fa-calendar-plus"></i>Apply Leave</a>
+      <a><i class="fas fa-history"></i>Leave History</a>
+      <a><i class="fas fa-bell"></i>Notifications</a>
+      <a><i class="fas fa-sign-out-alt"></i>Logout</a>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <div class="header" style="color: #ffffff;">Add New Leave</div>
+
+    <div class="card">
+
+      <div class="form-row full">
+        <label>Leave Type</label>
+        <select>
+          <option>Annual Leave (7)</option>
+          <option>Medical Leave</option>
+          <option>Emergency Leave</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Start Date</label>
+        <input type="date" value="2025-01-23">
+      </div>
+
+      <div class="form-row">
+        <label>End Date</label>
+        <input type="date" value="2025-01-25">
+      </div>
+
+      <div class="form-row full">
+        <label>Reason for Leave</label>
+        <textarea></textarea>
+      </div>
+
+      <div class="form-row full">
+        <label>Attachment (if any)</label>
+        <button class="upload-btn">☁ Upload</button>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-cancel">Cancel</button>
+        <button class="btn btn-submit">Submit</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<script>
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.toggle('closed');
+}
+
+/* Filter table by status */
+function filterStatus() {
+  const filter = document.getElementById("statusFilter").value.toLowerCase();
+  const table = document.getElementById("leaveTable");
+  const trs = table.tBodies[0].getElementsByTagName("tr");
+
+  for (let i = 0; i < trs.length; i++) {
+    const status = trs[i].getElementsByTagName("td")[4].textContent.toLowerCase();
+    trs[i].style.display = (filter === "all" || status === filter) ? "" : "none";
+  }
+}
+
+/* Search table */
+function searchTable() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const table = document.getElementById("leaveTable");
+  const trs = table.tBodies[0].getElementsByTagName("tr");
+
+  for (let i = 0; i < trs.length; i++) {
+    let found = false;
+    const tds = trs[i].getElementsByTagName("td");
+    for (let j = 0; j < tds.length - 1; j++) { // exclude Details column
+      if (tds[j].textContent.toLowerCase().includes(input)) {
+        found = true;
+        break;
+      }
+    }
+    trs[i].style.display = found ? "" : "none";
+  }
+}
+</script>
+
+</body>
+</html>
